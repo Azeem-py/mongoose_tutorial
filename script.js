@@ -5,17 +5,18 @@ mongoose.connect('mongodb://localhost/testdb')
 
 const run = async () => {
   try {
-    // const user = await User.findById('65797692396b61805fe99bee')
-    const user = await User.where('name')
-      .equals('Kareem')
-      .where('age')
-      .equals(26)
-      .populate('bestFriend')
-      .limit(1)
-    // const userUpdate = user[0]
-    // userUpdate.bestFriend = '657974949d99c68853a5ca55'
-    // await userUpdate.save()
+    //this is a static method and can be used directly with the Schema/model e.g
+    // const user = await User.findByName('Kyle')
+
+    //this is a query method and can be used after other query e.g
+    // const user = await User.find().byName('Kareem')
+
+    const user = await User.findOne({ name: 'Kareem' })
     console.log(user)
+    // user[0].sayHi()
+
+    //this is me using a virtual
+    console.log(user.namedEmail)
   } catch (error) {
     console.log(error.message)
   }
