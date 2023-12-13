@@ -4,25 +4,17 @@ const User = require('./Users')
 mongoose.connect('mongodb://localhost/testdb')
 
 const run = async () => {
-  //we can create a new user with this method
-  // const user = new User({ name: 'John', age: 18 })
-  // await user.save()
-
-  //METHOD 2
-
   try {
-    const user = await User.create({
-      name: 'Kareem',
-      age: 25,
-      hobbies: ['Bowling', 'Soccer'],
-      address: { street: 'St Lois', city: 'Lagos' },
-      email: 'mandem@test.COM',
-    })
-
-    //a user can also be updated like this
-
-    // user.name = 'Fawaz'
-    await user.save()
+    // const user = await User.findById('65797692396b61805fe99bee')
+    const user = await User.where('name')
+      .equals('Kareem')
+      .where('age')
+      .equals(26)
+      .populate('bestFriend')
+      .limit(1)
+    // const userUpdate = user[0]
+    // userUpdate.bestFriend = '657974949d99c68853a5ca55'
+    // await userUpdate.save()
     console.log(user)
   } catch (error) {
     console.log(error.message)
