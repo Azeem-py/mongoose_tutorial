@@ -62,4 +62,25 @@ UserSchema.query.byName = function (name) {
 UserSchema.virtual('namedEmail').get(function () {
   return `${this.name} <${this.email}>`
 })
+
+//MIDDLEWARES
+
+//using pre() will cause this middleware to run before saving
+UserSchema.pre('save', function (next) {
+  this.updatedAt = Date.now()
+  // the next() is for passing to the next middleware just like in express js
+  // next()
+
+  // this will throw an error with msg save failed because we are not calling next() thus update won't be saved
+
+  throw new Error('save failed')
+})
+
+// using post will make this middleware run after saving
+UserSchema.post('save', function (doc, next) {
+  //the doc param here is to reference the the document being returned and call it's sayHi method
+  doc.sayHi
+  next()
+})
+
 module.exports = mongoose.model('User', UserSchema)
